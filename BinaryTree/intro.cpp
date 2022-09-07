@@ -1,6 +1,7 @@
 // first non linear data structure.
 
 #include<iostream>
+#include<queue>
 using namespace std;
 class node{
     public:
@@ -53,6 +54,93 @@ void postorderPrint(node*root){
     postorderPrint(root->right);
     cout << root->data << "";
 }
+int height(node*root){
+    if(root==NULL){
+        return 0;
+    }
+    int ls = height(root->left);
+    int rs = height(root->right);
+    return max(ls, rs) + 1;
+}
+
+int levelOrderPrint(node*root){
+    int H = height(root);
+    for (int i = 0; i < H; i++)
+    {
+        printKthLevel(root,i);
+    }
+}  
+
+void printKthLevel(node*root,int k){
+    if(root==NULL){
+        return;
+    }
+    if(k==1){
+        cout << root->data << " ";
+    }
+    printKthLevel(root->left,k-1);
+    printKthLevel(root->right,k-1);
+}
+
+void bfs(node*root){
+    queue<node*> q;
+    q.push(root);
+    while(!q.empty()){
+        node *temp = q.front();
+        cout << temp->data << " ";
+        q.pop();
+        if(temp->left){
+        q.push(temp->left);
+        }
+        if(temp->right){
+        q.push(temp->right);
+        }
+    }
+    return;
+}
+// approach2- by using a queue of pairs of type <node*,int>
+// approach3-. adding null to the queue and printing a endl variable whenever a null variable is encountered
+// approach3- adding a null character to the queue whenever a linechange is req, and printing endl whenever that null charaacter is encountered
+
+void bfs(node*root){
+    queue<node *> queue;
+    queue.push(root);
+    queue.push(NULL);
+
+    while (!queue.empty())
+    {
+        node *temp = queue.front();
+        if(temp==NULL){
+            cout << endl;
+            queue.pop();
+            if(!queue.empty()){
+            queue.push(NULL);
+            }
+        }else{
+        cout << temp->data << " ";
+        queue.pop();
+        if(temp->left){
+            queue.push(temp->left);
+        }
+        if(temp->right){
+            queue.push(temp->right);
+        }
+        }
+    }
+    return;
+}
+
+int count_nodes(node*root){
+
+    if(root==NULL){
+        return 0;
+    }
+    int ls = count_nodes(root->left);
+    int rs = count_nodes(root->right);
+    return ls + rs + 1;
+}
+
+
 
 int main(){
 
