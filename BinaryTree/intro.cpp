@@ -140,7 +140,15 @@ int count_nodes(node*root){
     return ls + rs + 1;
 }
 
+int sum_allnodes(node*root){
 
+    if(root==NULL){
+        return 0;
+    }
+    int ls = sum_allnodes(root->left);
+    int rs = sum_allnodes(root->right);
+    return root->data + ls + rs;
+    }
 
 int main(){
 
